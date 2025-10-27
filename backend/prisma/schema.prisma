@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model addresses {
+  id           Int       @id @default(autoincrement())
+  user_id      Int
+  address_line String    @db.VarChar(255)
+  city         String    @db.VarChar(30)
+  district     String    @db.VarChar(30)
+  created_at   DateTime? @default(now()) @db.DateTime(0)
+  updated_at   DateTime? @default(now()) @db.Timestamp(0)
+  users        users     @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "addresses_ibfk_1")
+
+  @@index([user_id], map: "addresses_ibfk_1")
+}
+
+model roles {
+  id        Int         @id @default(autoincrement())
+  name      String      @unique(map: "name_UNIQUE") @db.VarChar(30)
+  user_role user_role[]
+}
+
+model user_role {
+  id      Int   @id @default(autoincrement())
+  user_id Int
+  role_id Int
+  users   users @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "user_role_ibfk_1")
+  roles   roles @relation(fields: [role_id], references: [id], onUpdate: Restrict, map: "user_role_ibfk_2")
+
+  @@index([user_id], map: "user_role_ibfk_1")
+  @@index([role_id], map: "user_role_ibfk_2_idx")
+  @@unique([user_id, role_id])
+}
+
+model users {
+  id            Int         @id @default(autoincrement())
+  username      String      @unique(map: "username_UNIQUE") @db.VarChar(50)
+  hash_password String      @db.VarChar(255)
+  name          String?     @db.VarChar(30)
+  avatar        String?     @db.VarChar(255)
+  email         String?     @unique(map: "email_UNIQUE") @db.VarChar(255)
+  phone         String?     @unique(map: "phone_UNIQUE") @db.VarChar(15)
+
+  created_at    DateTime?   @default(now()) @db.DateTime(0)
+  updated_at    DateTime?   @default(now()) @db.Timestamp(0)
+  deleted_at    DateTime?   @db.DateTime(0)
+  
+  addresses     addresses[]
+  user_role     user_role[]
+
+  @@index([deleted_at])
+}
