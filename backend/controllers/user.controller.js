@@ -1,7 +1,63 @@
 import prisma from "../libs/prisma.js";
-import bcrypt from "bcrypt";
+import checkRole from "../libs/checkRole.js";
+
+const getUser = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    if (id !== req.token_userId) {
+      return res.status(403).json({
+        success: false,
+        message: "Bạn không có quyền truy cập user này",
+      });
+    }
+
+    // Tìm user trong db
+    const user = await prisma.users.findFirst({
+      where: {
+        id: id,
+        deleted_at: null,
+      },
+      include: {
+        addresses: true,
+        user_role: {
+          include: {
+            roles: true,
+          },
+        },
+      },
+    });
+
+    // Return nếu không có
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy user",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Không thể tìm thấy user này",
+    });
+  }
+};
 
 const getUsers = async (req, res) => {
+  const isAdmin = checkRole(req.token_userRoles, "admin");
+
+  if (!isAdmin) {
+    return res.status(403).json({
+      success: false,
+      message: "Bạn không có quyền truy cập danh sách user",
+    });
+  }
+
   try {
     const users = await prisma.users.findMany({
       where: {
@@ -20,8 +76,6 @@ const getUsers = async (req, res) => {
       success: true,
       data: users,
     });
-
-    console.log(users);
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -30,57 +84,52 @@ const getUsers = async (req, res) => {
   }
 };
 
-const createUser = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
-    const { name, username, password } = req.body;
+    const id = parseInt(req.params.id);
 
-    // Validate input
-    if (!name || !username || !password) {
-      return res.status(400).json({
+    if (req.token_userId !== id) {
+      return res.status(500).json({
         success: false,
-        message: "Name, username and password are required",
+        message: "Bạn không phải chủ tài khoản này!",
       });
     }
 
-    // Check if username already exists
-    const existingUser = await prisma.users.findUnique({
+    // Tìm user trong db
+    const user = await prisma.users.findFirst({
       where: {
-        username,
+        id: parseInt(id),
+        deleted_at: null,
       },
     });
-    if (existingUser) {
-      return res.status(400).json({
+
+    // Return nếu không có
+    if (!user) {
+      return res.status(404).json({
         success: false,
-        message: "Username already exists",
+        message: "Không tìm thấy user",
       });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Create user
-    const user = await prisma.users.create({
+    // Xóa (soft delete) user
+    await prisma.users.update({
+      where: {
+        id: parseInt(id),
+      },
       data: {
-        name,
-        username,
-        hash_password: hashedPassword,
+        deleted_at: new Date(),
       },
     });
 
-    // Create user role
-    await prisma.user_role.create({
-      data: {
-        user_id: user.id,
-        role_id: 2, // 1 is admin, 2 is user
-      },
-    });
-
-    const { hash_password, ...userWithoutPassword } = user;
-    res.status(201).json({
+    res.status(200).json({
       success: true,
-      data: userWithoutPassword,
+      message: "User đã được xóa",
     });
   } catch (error) {
+    console.log({
+      success: false,
+      message: error.message,
+    });
     res.status(500).json({
       success: false,
       message: error.message,
@@ -88,4 +137,4 @@ const createUser = async (req, res) => {
   }
 };
 
-export { getUsers, createUser };
+export { getUsers, getUser, deleteUser };
