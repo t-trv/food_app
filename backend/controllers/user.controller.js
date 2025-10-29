@@ -84,6 +84,56 @@ const getUsers = async (req, res) => {
   }
 };
 
+const updateUser = async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    if (id !== req.token_userId) {
+      return res.status(403).json({
+        success: false,
+        message: "Bạn không có quyền cập nhật user này",
+      });
+    }
+
+    const user = await prisma.users.findFirst({
+      where: {
+        id: id,
+        deleted_at: null,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Không tìm thấy user",
+      });
+    }
+
+    const { name, email, phone } = req.body;
+
+    const updatedUser = await prisma.users.update({
+      where: {
+        id: id,
+      },
+      data: {
+        name: name,
+        email: email,
+        phone: phone,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      data: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 const deleteUser = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
@@ -137,4 +187,4 @@ const deleteUser = async (req, res) => {
   }
 };
 
-export { getUsers, getUser, deleteUser };
+export { getUsers, getUser, deleteUser, updateUser };
