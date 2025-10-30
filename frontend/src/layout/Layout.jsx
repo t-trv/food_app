@@ -17,7 +17,8 @@ const Layout = () => {
 
 const RequiredAuthLayout = () => {
   const { currentUser } = useAuthContext();
-  if (!currentUser) {
+
+  if (currentUser?.website !== "quadbite") {
     return <Navigate to="/login" />;
   }
 
