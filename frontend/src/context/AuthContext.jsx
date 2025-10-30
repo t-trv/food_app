@@ -4,15 +4,23 @@ export const AuthContext = createContext();
 
 export const AuthContextProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
+    JSON.parse(localStorage.getItem("quadbite_user")) || null
   );
 
   const updateUser = (data) => {
-    setCurrentUser(data);
+    if (data === null) {
+      setCurrentUser(null);
+      return;
+    }
+
+    setCurrentUser({
+      ...data,
+      website: "quadbite",
+    });
   };
 
   useEffect(() => {
-    localStorage.setItem("user", JSON.stringify(currentUser));
+    localStorage.setItem("quadbite_user", JSON.stringify(currentUser));
   }, [currentUser]);
 
   return (
