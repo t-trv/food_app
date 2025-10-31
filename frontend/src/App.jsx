@@ -1,40 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Layout, RequiredAuthLayout } from "./layout/Layout";
-import HomePage from "./pages/HomePage";
-import LoginPage from "./pages/LoginPage";
-import RegisterPage from "./pages/RegisterPage";
-import UpdateProfilePage from "./pages/UpdateProfilePage";
+import publicRoutes from "./routes/publicRoute";
+import requiredAuthRoute from "./routes/requiredAuthRoute";
+import adminRoute from "./routes/adminRoute";
 
 const App = () => {
   const routes = createBrowserRouter([
-    {
-      path: "/login",
-      element: <LoginPage />,
-    },
-    {
-      path: "/register",
-      element: <RegisterPage />,
-    },
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        {
-          path: "/",
-          element: <HomePage />,
-        },
-      ],
-    },
-    {
-      path: "/",
-      element: <RequiredAuthLayout />,
-      children: [
-        {
-          path: "/update-profile",
-          element: <UpdateProfilePage />,
-        },
-      ],
-    },
+    ...publicRoutes,
+    ...requiredAuthRoute,
+    ...adminRoute,
   ]);
 
   return <RouterProvider router={routes} />;

@@ -35,18 +35,19 @@ const RegisterPage = () => {
         setTimeout(() => {
           setIsLoading(false);
           toast.success("Đăng ký thành công");
-        }, 3000);
+          navigate("/login");
+        }, 1000);
       } else {
         setTimeout(() => {
           setIsLoading(false);
           toast.error(res.data.message);
-        }, 3000);
+        }, 1000);
       }
     } catch (error) {
       setTimeout(() => {
         toast.error(error.response.data.message);
         setIsLoading(false);
-      }, 3000);
+      }, 1000);
     }
   };
   return (
@@ -79,6 +80,7 @@ const RegisterPage = () => {
                     required
                     minLength={6}
                     maxLength={20}
+                    tabIndex={1}
                   />
                 </div>
                 <div className="flex flex-col mb-4">
@@ -91,6 +93,7 @@ const RegisterPage = () => {
                     required
                     minLength={6}
                     maxLength={20}
+                    tabIndex={2}
                   />
                 </div>
                 <div className="flex flex-col mb-4">
@@ -103,6 +106,7 @@ const RegisterPage = () => {
                     required
                     minLength={6}
                     maxLength={20}
+                    tabIndex={3}
                   />
                 </div>
                 <div className="flex justify-end mb-4">
@@ -116,6 +120,7 @@ const RegisterPage = () => {
                 <button
                   className="bg-[#162D3A] text-white px-4 py-4 rounded-xl w-full cursor-pointer hover:scale-105 transition-all duration-300 active:scale-95 select-none"
                   type="submit"
+                  tabIndex={4}
                 >
                   <span>Đăng ký</span>
                 </button>
@@ -151,7 +156,7 @@ const RegisterPage = () => {
                       setTimeout(() => {
                         setIsLoading(false);
                         navigate("/login");
-                      }, 1500);
+                      }, 1000);
                     }}
                     className="text-blue-700 font-semibold cursor-pointer"
                   >

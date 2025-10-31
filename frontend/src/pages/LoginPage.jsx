@@ -55,7 +55,8 @@ const LoginPage = () => {
                   Đăng nhập
                 </h1>
                 <p className="text-xl font-semibold">
-                  Chào mừng bạn quay trở lại với QuadBite!
+                  Chào mừng bạn quay trở lại với
+                  <span className="text-primary font-bold"> QuadBite</span>
                 </p>
               </div>
 
