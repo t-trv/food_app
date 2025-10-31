@@ -1,6 +1,15 @@
 @import "tailwindcss";
+@import "./css/variables.css";
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Lexend", sans-serif;
   background-color: #f5f5f5;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE và Edge */
+  scrollbar-width: none; /* Firefox */
 }

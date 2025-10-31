@@ -10,6 +10,6 @@ createRoot(document.getElementById("root")).render(
     <AuthContextProvider>
       <App />
     </AuthContextProvider>
-    <Toaster />
+    <Toaster position="bottom-right" />
   </StrictMode>
 );
