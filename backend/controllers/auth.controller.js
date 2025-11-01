@@ -10,7 +10,7 @@ const register = async (req, res) => {
     if (!name || !username || !password) {
       return res.status(400).json({
         success: false,
-        message: "Name, username and password are required",
+        message: "Yêu cầu nhập đầy đủ họ và tên, tên đăng nhập và mật khẩu",
       });
     }
 
@@ -21,9 +21,9 @@ const register = async (req, res) => {
       },
     });
     if (existingUser) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
-        message: "Username already exists",
+        message: "Tên đăng nhập đã tồn tại",
       });
     }
 
@@ -68,7 +68,7 @@ const login = async (req, res) => {
     if (!username || !password) {
       return res.status(400).json({
         success: false,
-        message: "Username and password are required",
+        message: "Yêu cầu nhập đầy đủ tài khoản và mật khẩu",
       });
     }
 
@@ -86,9 +86,9 @@ const login = async (req, res) => {
 
     // Return neu khong ton tai
     if (!user) {
-      return res.status(400).json({
+      return res.status(404).json({
         success: false,
-        message: "User not found",
+        message: "Tài khoản không tồn tại hoặc đã bị xóa",
       });
     }
 
@@ -97,9 +97,9 @@ const login = async (req, res) => {
 
     // Return neu sai password
     if (!isPasswordValid) {
-      return res.status(400).json({
+      return res.status(401).json({
         success: false,
-        message: "Invalid password",
+        message: "Sai mật khẩu, vui lòng đăng nhập lại",
       });
     }
 
