@@ -6,10 +6,10 @@ import { Toaster } from "react-hot-toast";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  <>
     <AuthContextProvider>
       <App />
+      <Toaster position="bottom-right" />
     </AuthContextProvider>
-    <Toaster position="bottom-right" />
-  </StrictMode>
+  </>
 );
