@@ -18,6 +18,7 @@ const register = async (req, res) => {
     const existingUser = await prisma.users.findUnique({
       where: {
         username,
+        deleted_at: null,
       },
     });
     if (existingUser) {

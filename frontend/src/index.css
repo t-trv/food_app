@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./css/variables.css";
+@import "./css/keyframes.css";
 
 body {
   font-family: "Lexend", sans-serif;
