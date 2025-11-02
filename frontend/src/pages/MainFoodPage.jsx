@@ -7,10 +7,10 @@ const MainFoodPage = () => {
   const { categories } = useCategoryContext();
   const [activeCategory, setActiveCategory] = useState(null);
   const mainFoodCategories =
-    categories.filter((category) => category.path === "/side-food")?.at(0)
+    categories.filter((category) => category.path === "/main-food")?.at(0)
       ?.side_categories || [];
 
-  console.log("side food render");
+  console.log(!!activeCategory);
 
   return (
     <div>
@@ -22,6 +22,18 @@ const MainFoodPage = () => {
           activeCategory={activeCategory}
           setActiveCategory={setActiveCategory}
         />
+      )}
+
+      {!activeCategory && (
+        <div>
+          <h1>Danh sách 1</h1>
+        </div>
+      )}
+
+      {!!activeCategory && (
+        <div>
+          <h1>Danh sách 2</h1>
+        </div>
       )}
     </div>
   );
