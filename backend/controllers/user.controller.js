@@ -87,7 +87,9 @@ const getUsers = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
+    const { name, email, phone } = req.body;
 
+    // Kiểm tra xem user có quyền cập nhật user này không
     if (id !== req.token_userId) {
       return res.status(403).json({
         success: false,
@@ -95,6 +97,7 @@ const updateUser = async (req, res) => {
       });
     }
 
+    // Tìm user trong db
     const user = await prisma.users.findFirst({
       where: {
         id: id,
@@ -102,6 +105,7 @@ const updateUser = async (req, res) => {
       },
     });
 
+    // Return nếu không tìm thấy user
     if (!user) {
       return res.status(404).json({
         success: false,
@@ -109,16 +113,53 @@ const updateUser = async (req, res) => {
       });
     }
 
-    const { name, email, phone } = req.body;
+    // Kiểm tra trùng email hoặc số điện thoại
+    if (email && email !== user.email) {
+      const existingEmail = await prisma.users.findFirst({
+        where: {
+          email: email,
+          deleted_at: null,
+          NOT: {
+            id: id,
+          },
+        },
+      });
+      if (existingEmail) {
+        return res.status(400).json({
+          success: false,
+          message: "Email đã tồn tại",
+        });
+      }
+    }
+
+    // Kiểm tra trùng số điện thoại
+    if (phone && phone !== user.phone) {
+      const existingPhone = await prisma.users.findFirst({
+        where: {
+          phone: phone,
+          deleted_at: null,
+          NOT: {
+            id: id,
+          },
+        },
+      });
+
+      if (existingPhone) {
+        return res.status(400).json({
+          success: false,
+          message: "Số điện thoại đã tồn tại",
+        });
+      }
+    }
 
     const updatedUser = await prisma.users.update({
       where: {
         id: id,
       },
       data: {
-        name: name,
-        email: email,
-        phone: phone,
+        ...(name && { name }),
+        ...(email && { email }),
+        ...(phone && { phone }),
       },
     });
 

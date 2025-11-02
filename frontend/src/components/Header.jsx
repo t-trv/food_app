@@ -3,34 +3,24 @@ import { useAuthContext } from "../context/AuthContext";
 import { SearchIcon, ShoppingCartIcon } from "lucide-react";
 import { avtDefault } from "../assets/avt";
 import { useNavigate } from "react-router-dom";
+import { useCategoryContext } from "../context/CategoryContext";
 
 const Header = () => {
-  const { currentUser } = useAuthContext();
   const navigate = useNavigate();
+  const { currentUser } = useAuthContext();
+  const { categories } = useCategoryContext();
 
-  const headerItems = [
-    {
-      id: "main-food",
-      title: "Món ăn chính",
-      path: "/",
-    },
-    {
-      id: "side-food",
-      title: "Tráng miệng",
-      path: "/side-food",
-    },
-    {
-      id: "drink",
-      title: "Đồ uống",
-      path: "/drink",
-    },
-  ];
+  const headerItems = categories?.map((category) => ({
+    id: category.id,
+    title: category.name,
+    path: `${category.path}`,
+  }));
 
   return (
     <div className="w-full bg-white py-2 px-4 rounded-full flex justify-between items-center">
       {/* Logo or brand name */}
       <div onClick={() => navigate("/")} className="cursor-pointer">
-        <h1 className="text-xl font-bold text-primary ml-2">QuadBite</h1>
+        <h1 className="text-2xl font-bold text-primary ml-2">QuadBite</h1>
       </div>
 
       {/* Header items */}

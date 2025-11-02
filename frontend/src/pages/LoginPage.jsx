@@ -26,9 +26,9 @@ const LoginPage = () => {
       if (res.data.success) {
         setTimeout(() => {
           toast.success("Đăng nhập thành công");
-          setIsLoading(false);
           updateUser(res.data.data);
           navigate("/");
+          setIsLoading(false);
         }, 1000);
       } else {
         toast.error(res.data.message);

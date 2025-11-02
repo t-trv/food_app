@@ -92,6 +92,8 @@ model foods {
 model main_categories {
   id              String            @id @db.VarChar(10)
   name            String            @db.VarChar(30)
+  sort_order      Int               @default(0)
+  path            String            @db.VarChar(255) @default("/")
   
   side_categories side_categories[]
 }
