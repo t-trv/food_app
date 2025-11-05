@@ -1,45 +1,26 @@
-import Layout from "../layout/Layout";
 import HomePage from "../pages/HomePage";
-import SideFoodPage from "../pages/SideFoodPage";
-import DrinkPage from "../pages/DrinkPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import MainFoodPage from "../pages/MainFoodPage";
-import PromotionsPage from "../pages/PromotionsPage";
+import ShoppingLayout from "../layout/ShoppingLayout";
+import HomeLayout from "../layout/HomeLayout";
+import FoodMenu from "../components/FoodMenu";
+import FoodDetail from "../components/FoodDetail";
 
 const publicRoutes = [
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
   {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
+    path: "/",
+    element: <HomeLayout />,
+    children: [{ path: "/", element: <HomePage /> }],
   },
   {
     path: "/",
-    element: <Layout />,
+    element: <ShoppingLayout />,
     children: [
-      {
-        path: "/",
-        element: <HomePage />,
-      },
-      {
-        path: "/main-food",
-        element: <MainFoodPage />,
-      },
-      {
-        path: "/side-food",
-        element: <SideFoodPage />,
-      },
-      {
-        path: "/drink",
-        element: <DrinkPage />,
-      },
-      {
-        path: "/promotions",
-        element: <PromotionsPage />,
-      },
+      { path: "/", element: <HomePage /> },
+      { path: "/:mainCategory", element: <FoodMenu /> },
+      { path: "/:mainCategory/:slug", element: <FoodDetail /> },
     ],
   },
 ];

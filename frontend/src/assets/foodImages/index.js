@@ -1,0 +1,9 @@
+export { default as foodImage1 } from "./foodImage1.png";
+export { default as foodImage2 } from "./foodImage2.png";
+export { default as foodImage3 } from "./foodImage3.png";
+export { default as foodImage4 } from "./foodImage4.png";
+export { default as foodImage5 } from "./foodImage5.png";
+export { default as foodImage6 } from "./foodImage6.png";
+export { default as foodImage7 } from "./foodImage7.png";
+export { default as foodImage8 } from "./foodImage8.png";
+export { default as foodImage9 } from "./foodImage9.png";

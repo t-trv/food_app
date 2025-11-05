@@ -1,0 +1,8 @@
+{
+  "cl": {
+    "prefix": "cl",
+    "description": "cl",
+    "scope": "javascriptreact",
+    "body": ["console.log()"]
+  }
+}

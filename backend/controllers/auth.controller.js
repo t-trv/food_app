@@ -31,29 +31,31 @@ const register = async (req, res) => {
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
-    const user = await prisma.users.create({
-      data: {
-        name,
-        username,
-        hash_password: hashedPassword,
-      },
-    });
+    // Transaction rollback nếu có lỗi
+    await prisma.$transaction(async (tx) => {
+      const user = await tx.users.create({
+        data: {
+          name,
+          username,
+          hash_password: hashedPassword,
+        },
+      });
 
-    // Create user role
-    await prisma.user_role.create({
-      data: {
-        user_id: user.id,
-        role_id: 2, // 1 is admin, 2 is user
-      },
-    });
+      await tx.user_role.create({
+        data: {
+          user_id: user.id,
+          role_id: "user",
+        },
+      });
 
-    const { hash_password, ...userWithoutPassword } = user;
-    res.status(201).json({
-      success: true,
-      data: userWithoutPassword,
+      const { hash_password, ...userWithoutPassword } = user;
+      res.status(201).json({
+        success: true,
+        data: userWithoutPassword,
+      });
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: error.message,
@@ -126,6 +128,7 @@ const login = async (req, res) => {
         data: userWithoutPassword,
       });
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       success: false,
       message: error.message,

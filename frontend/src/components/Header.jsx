@@ -1,16 +1,17 @@
 import { NavLink } from "react-router-dom";
 import { useAuthContext } from "../context/AuthContext";
-import { SearchIcon, ShoppingCartIcon } from "lucide-react";
+import { LayoutDashboardIcon, SearchIcon, ShoppingCartIcon } from "lucide-react";
 import { avtDefault } from "../assets/avt";
 import { useNavigate } from "react-router-dom";
-import { useCategoryContext } from "../context/CategoryContext";
+import { useMainCategoryContext } from "../context/MainCategoryContext";
+import isAdmin from "../libs/isAdmin";
 
 const Header = () => {
   const navigate = useNavigate();
   const { currentUser } = useAuthContext();
-  const { categories } = useCategoryContext();
+  const { mainCategories } = useMainCategoryContext();
 
-  const headerItems = categories?.map((category) => ({
+  const headerItems = mainCategories?.map((category) => ({
     id: category.id,
     title: category.name,
     path: `${category.path}`,
@@ -20,7 +21,7 @@ const Header = () => {
     <div className="w-full bg-white py-2 px-4 rounded-full flex justify-between items-center">
       {/* Logo or brand name */}
       <div onClick={() => navigate("/")} className="cursor-pointer">
-        <h1 className="text-2xl font-bold text-primary ml-2">QuadBite</h1>
+        <h1 className="text-3xl font-bold text-primary ml-2 brand-title-font">QuadBite</h1>
       </div>
 
       {/* Header items */}
@@ -57,16 +58,22 @@ const Header = () => {
             </button>
           </div>
 
+          {/* Dashboard button */}
+          {isAdmin(currentUser) && (
+            <button
+              className="flex items-center justify-center gap-2 bg-secondary text-white px-4 py-2 rounded-full hover:scale-105 transition-all duration-300 active:scale-95 cursor-pointer"
+              onClick={() => navigate("/admin/dashboard")}
+            >
+              <LayoutDashboardIcon className="w-4 h-4" onClick={() => navigate("/admin/dashboard")} />
+            </button>
+          )}
+
           {/* User button */}
           <button
             onClick={() => navigate("/update-profile")}
-            className="rounded-full border-1 border-secondary hover:scale-105 transition-all duration-300 active:scale-95 cursor-pointer"
+            className="rounded-full border border-secondary hover:scale-105 transition-all duration-300 active:scale-95 cursor-pointer"
           >
-            <img
-              src={currentUser.avatar || avtDefault}
-              alt="avatar"
-              className="w-8 h-8 rounded-full"
-            />
+            <img src={currentUser.avatar || avtDefault} alt="avatar" className="w-8 h-8 rounded-full" />
           </button>
         </div>
       ) : (

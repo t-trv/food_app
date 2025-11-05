@@ -1,11 +1,18 @@
 import { useAuthContext } from "../context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
+import isAdmin from "../libs/isAdmin";
 
 const AdminLayout = () => {
   const { currentUser } = useAuthContext();
 
   if (currentUser?.website !== "quadbite") {
     return <Navigate to="/login" />;
+  }
+
+  const authorized = isAdmin(currentUser);
+
+  if (!authorized) {
+    return <Navigate to="/" />;
   }
 
   return (

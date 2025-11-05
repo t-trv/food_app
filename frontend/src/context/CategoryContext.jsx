@@ -27,11 +27,7 @@ export const CategoryContextProvider = ({ children }) => {
     fetchCategories();
   }, []);
 
-  return (
-    <CategoryContext.Provider value={{ categories, setCategories }}>
-      {children}
-    </CategoryContext.Provider>
-  );
+  return <CategoryContext.Provider value={{ allCategories, setAllCategories }}>{children}</CategoryContext.Provider>;
 };
 
 export const useCategoryContext = () => {
