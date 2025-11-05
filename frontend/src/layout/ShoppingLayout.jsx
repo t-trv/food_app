@@ -10,8 +10,9 @@ const ShoppingLayout = () => {
         <MainCategoryContextProvider>
           <Header />
         </MainCategoryContextProvider>
+
         <div className="h-full w-full grid grid-cols-1 lg:grid-cols-12 gap-4">
-          <div className="h-full w-full bg-white rounded-2xl p-4 col-span-9">
+          <div className="h-full w-full bg-white rounded-2xl p-4 col-span-9 relative">
             <Outlet />
           </div>
 

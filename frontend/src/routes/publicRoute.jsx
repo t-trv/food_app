@@ -1,54 +1,26 @@
-import { MainCategoryContextProvider } from "../context/MainCategoryContext.jsx";
 import HomePage from "../pages/HomePage";
-import SideFoodPage from "../pages/SideFoodPage";
-import DrinkPage from "../pages/DrinkPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
-import MainFoodPage from "../pages/MainFoodPage";
 import ShoppingLayout from "../layout/ShoppingLayout";
 import HomeLayout from "../layout/HomeLayout";
-import FoodDetailPage from "../pages/FoodDetailPage";
+import FoodMenu from "../components/FoodMenu";
+import FoodDetail from "../components/FoodDetail";
 
 const publicRoutes = [
-  {
-    path: "/login",
-    element: <LoginPage />,
-  },
-  {
-    path: "/register",
-    element: <RegisterPage />,
-  },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/register", element: <RegisterPage /> },
   {
     path: "/",
     element: <HomeLayout />,
-    children: [
-      {
-        path: "/",
-        element: <HomePage />,
-      },
-    ],
+    children: [{ path: "/", element: <HomePage /> }],
   },
   {
     path: "/",
     element: <ShoppingLayout />,
     children: [
-      {
-        path: "/",
-        element: <HomePage />,
-      },
-      {
-        path: "/main-food",
-        element: <MainFoodPage />,
-      },
-      {
-        path: "/side-food",
-        element: <SideFoodPage />,
-      },
-      {
-        path: "/drink-food",
-        element: <DrinkPage />,
-      },
-      { path: "/foods/:slug", element: <FoodDetailPage /> },
+      { path: "/", element: <HomePage /> },
+      { path: "/:mainCategory", element: <FoodMenu /> },
+      { path: "/:mainCategory/:slug", element: <FoodDetail /> },
     ],
   },
 ];

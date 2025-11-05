@@ -1,50 +1,36 @@
-import toast from "react-hot-toast";
-import randomFoodImage from "../libs/randomFoodImage";
+import { PlusIcon } from "lucide-react";
+import { formatCurrency } from "../libs/formatCurrency";
+import emptyFoodImage from "../libs/emptyFoodImage";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import useOrderList from "../hooks/orderList";
 
 const FoodCard = ({ food }) => {
+  const { mainCategory } = useParams();
   const navigate = useNavigate();
-  const { orderList, addToOrderList } = useOrderList();
-  const foodImage = randomFoodImage();
+  const foodImage = food.image || emptyFoodImage();
 
   return (
     <div
-      onClick={(e) => {
-        if (e.target.closest(".order-btn")) {
-          return;
-        } else {
-          navigate(`/foods/${food.slug}`);
-        }
+      onClick={() => {
+        navigate(`/${mainCategory}/${food.slug}`);
       }}
-      className="border-2 border-dashed border-stone-300 rounded-2xl p-4 flex gap-2 cursor-pointer hover:translate-y-[-5px] transition-all duration-300 hover:shadow-xl"
+      className="bg-white rounded-xl flex flex-col p-2 border-dashed border-2 border-gray-200 shadow-lg transition-all duration-300 hover:shadow-xl hover:border-secondary cursor-pointer hover:translate-y-[-5px]"
     >
-      <div
-        className="w-30 h-30 shrink-0 aspect-square rounded-full overflow-hidden"
-        style={{
-          backgroundImage: `url(${food.image || foodImage})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      ></div>
-      <div className="flex flex-col gap-2  justify-between flex-1">
+      {/* Food image */}
+      <img src={foodImage} alt={food.name} className="w-full object-cover rounded-xl aspect-square select-none" />
+
+      <div className="p-2 h-auto flex flex-col justify-between flex-1">
+        {/* Food name and description */}
         <div>
-          <h2 className="text-xl font-medium">{food.name}</h2>
-          {/* <p className="text-sm text-gray-500">{food.description}</p> */}
+          <h3 className="text-lg font-semibold">{food.name}</h3>
+          <p className="text-sm text-gray-500">{food.short_description || food.description}</p>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-primary">{food.price}đ </span>
-          <span className="text-sm text-gray-500">Giảm {food.discount ? food.discount : ""}đ</span>
-        </div>
-        <div className="flex justify-end items-center ">
-          <button
-            onClick={() => {
-              addToOrderList(food);
-            }}
-            className="order-btn bg-secondary text-white px-3 py-1 rounded-full text-sm cursor-pointer"
-          >
-            Đặt món
+
+        {/* Food price and add to cart button */}
+        <div className="flex items-center justify-between py-2">
+          <span className="text-md text-primary">{formatCurrency(food.price)}</span>
+          <button className="w-7 h-7 rounded-full bg-primary text-white  flex items-center justify-center">
+            <PlusIcon className="w-4 h-4 text-white" />
           </button>
         </div>
       </div>

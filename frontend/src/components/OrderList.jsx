@@ -4,8 +4,6 @@ import useOrderList from "../hooks/orderList";
 const OrderList = () => {
   const { orderList, removeFromOrderList } = useOrderList();
 
-  console.log(orderList);
-
   return (
     <div>
       <SecondaryTitle title="Danh sách đặt món" />
