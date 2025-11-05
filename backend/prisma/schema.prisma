@@ -41,6 +41,7 @@ model foods {
   slug             String          @unique(map: "slug_UNIQUE") @db.VarChar(50)
   image            String?         @db.VarChar(255)
   preparation_time Int             @default(0)
+  short_description String?       @db.VarChar(100)
   description      String          @db.Text
   price            Decimal         @default(0.00) @db.Decimal(10, 2)
   discount         Decimal?        @default(0.00) @db.Decimal(10, 2)

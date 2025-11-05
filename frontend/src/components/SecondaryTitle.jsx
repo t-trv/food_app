@@ -1,5 +1,5 @@
 const SecondaryTitle = ({ title }) => {
-  return <h2 className="text-lg font-semibold text-secondary ">{title}</h2>;
+  return <h2 className="text-md font-semibold text-secondary ">{title}</h2>;
 };
 
 export default SecondaryTitle;
