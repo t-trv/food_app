@@ -25,9 +25,9 @@ const LoginPage = () => {
 
       if (res.data.success) {
         setTimeout(() => {
-          toast.success("Đăng nhập thành công");
           updateUser(res.data.data);
           navigate("/");
+          toast.success("Đăng nhập thành công");
           setIsLoading(false);
         }, 1000);
       } else {
@@ -53,12 +53,10 @@ const LoginPage = () => {
               <div className="max-w-[388px] w-full">
                 {/* Title */}
                 <div className="mb-8 text-center">
-                  <h1 className="text-3xl font-bold mb-4 text-[#1F41BB]">
-                    Đăng nhập
-                  </h1>
+                  <h1 className="text-3xl font-bold mb-2 text-[#1F41BB]">Đăng nhập</h1>
                   <p className="text-xl font-semibold">
                     Chào mừng bạn quay trở lại với
-                    <span className="text-primary font-bold"> QuadBite</span>
+                    <span className="text-primary font-bold brand-title-font text-3xl"> QuadBite</span>
                   </p>
                 </div>
 
@@ -87,10 +85,7 @@ const LoginPage = () => {
                     />
                   </div>
                   <div className="flex justify-end mb-4">
-                    <Link
-                      to="/login"
-                      className="text-md font-semibold text-blue-700"
-                    >
+                    <Link to="/login" className="text-md font-semibold text-blue-700">
                       Quên mật khẩu?
                     </Link>
                   </div>
@@ -117,11 +112,7 @@ const LoginPage = () => {
                       <span>Đăng nhập với Google</span>
                     </div>
                     <div className="flex items-center justify-center gap-2 bg-[#F3F9FA] cursor-pointer hover:scale-105 transition-all duration-300 active:scale-95 select-none rounded-xl p-4">
-                      <img
-                        src={facebookIcon}
-                        alt="google"
-                        className="w-6 h-6"
-                      />
+                      <img src={facebookIcon} alt="google" className="w-6 h-6" />
                       <span>Đăng nhập với Facebook</span>
                     </div>
                   </div>
