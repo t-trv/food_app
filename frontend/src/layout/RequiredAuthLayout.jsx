@@ -1,6 +1,7 @@
 import { useAuthContext } from "../context/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 import Header from "../components/Header";
+import { MainCategoryContextProvider } from "../context/MainCategoryContext";
 
 const RequiredAuthLayout = () => {
   const { currentUser } = useAuthContext();
@@ -12,7 +13,9 @@ const RequiredAuthLayout = () => {
   return (
     <div className="h-full w-full">
       <div className="container mx-auto my-4  flex flex-col gap-4">
-        <Header />
+        <MainCategoryContextProvider>
+          <Header />
+        </MainCategoryContextProvider>
         <div>
           <Outlet />
         </div>

@@ -119,25 +119,25 @@ const deleteMainCategory = async (req, res) => {
 
 const createSideCategory = async (req, res) => {
   try {
-    const { name, slug, description, main_category_id } = req.body;
+    const { id, main_category_id, name } = req.body;
 
     // Validate input
-    if (!name || !slug || !description || !main_category_id) {
+    if (!id || !main_category_id || !name) {
       return res.status(400).json({
         success: false,
-        message: "Yêu cầu nhập đầy đủ tên, slug, mô tả và mã danh mục chính",
+        message: "Yêu cầu nhập đầy đủ id, mã danh mục chính và tên",
       });
     }
 
     // Kiểm tra danh mục phụ đã tồn tại
     const existingSideCategory = await prisma.side_categories.findFirst({
-      where: { slug },
+      where: { id },
     });
 
     if (existingSideCategory) {
       return res.status(400).json({
         success: false,
-        message: "Slug danh mục phụ đã tồn tại",
+        message: "Id danh mục phụ đã tồn tại",
       });
     }
 
@@ -154,7 +154,7 @@ const createSideCategory = async (req, res) => {
 
     // Tạo danh mục phụ
     const sideCategory = await prisma.side_categories.create({
-      data: { name, slug, description, main_category_id },
+      data: { id, main_category_id, name },
     });
     res.status(201).json({
       success: true,
@@ -171,6 +171,8 @@ const createSideCategory = async (req, res) => {
 const deleteSideCategory = async (req, res) => {
   try {
     const { id } = req.body;
+    console.log(id);
+
     const sideCategory = await prisma.side_categories.delete({
       where: { id },
     });

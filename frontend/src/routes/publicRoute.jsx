@@ -1,11 +1,13 @@
-import Layout from "../layout/Layout";
+import { MainCategoryContextProvider } from "../context/MainCategoryContext.jsx";
 import HomePage from "../pages/HomePage";
 import SideFoodPage from "../pages/SideFoodPage";
 import DrinkPage from "../pages/DrinkPage";
 import LoginPage from "../pages/LoginPage";
 import RegisterPage from "../pages/RegisterPage";
 import MainFoodPage from "../pages/MainFoodPage";
-import PromotionsPage from "../pages/PromotionsPage";
+import ShoppingLayout from "../layout/ShoppingLayout";
+import HomeLayout from "../layout/HomeLayout";
+import FoodDetailPage from "../pages/FoodDetailPage";
 
 const publicRoutes = [
   {
@@ -18,7 +20,17 @@ const publicRoutes = [
   },
   {
     path: "/",
-    element: <Layout />,
+    element: <HomeLayout />,
+    children: [
+      {
+        path: "/",
+        element: <HomePage />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <ShoppingLayout />,
     children: [
       {
         path: "/",
@@ -33,13 +45,10 @@ const publicRoutes = [
         element: <SideFoodPage />,
       },
       {
-        path: "/drink",
+        path: "/drink-food",
         element: <DrinkPage />,
       },
-      {
-        path: "/promotions",
-        element: <PromotionsPage />,
-      },
+      { path: "/foods/:slug", element: <FoodDetailPage /> },
     ],
   },
 ];

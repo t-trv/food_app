@@ -8,8 +8,8 @@ import {
   createSideCategory,
   deleteSideCategory,
 } from "../controllers/category.controller.js";
-import verifyToken from "../middleware/verifyToken.js";
-import isAdmin from "../middleware/isAdmin.js";
+import verifyToken from "../middlewares/verifyToken.js";
+import isAdmin from "../middlewares/isAdmin.js";
 
 const router = express.Router();
 

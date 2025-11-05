@@ -6,14 +6,16 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading";
 import ConfirmModal from "../components/ConfirmModal";
+import useOrderList from "../hooks/orderList";
 
 const UpdateProfilePage = () => {
   const { updateUser, currentUser } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] =
-    useState(false);
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState(false);
   const navigate = useNavigate();
+
+  const { clearOrderList } = useOrderList();
 
   const formFields = [
     {
@@ -84,6 +86,8 @@ const UpdateProfilePage = () => {
     apiRequest.post("/auth/logout").then((res) => {
       if (res.data.success) {
         updateUser(null);
+        localStorage.removeItem("orderListStorage");
+        clearOrderList();
         navigate("/");
       }
     });
@@ -115,12 +119,8 @@ const UpdateProfilePage = () => {
                 <img src={currentUser?.avatar || avtDefault} alt="" />
               </div>
               <div className="flex flex-col gap-1">
-                <h2 className="text-xl lg:text-2xl font-semibold">
-                  {currentUser?.name}
-                </h2>
-                <p className="md:text-sm text-xs text-gray-500">
-                  {currentUser?.email || "Chưa có email"}
-                </p>
+                <h2 className="text-xl lg:text-2xl font-semibold">{currentUser?.name}</h2>
+                <p className="md:text-sm text-xs text-gray-500">{currentUser?.email || "Chưa có email"}</p>
               </div>
             </div>
 
@@ -141,10 +141,7 @@ const UpdateProfilePage = () => {
               {/* List form fields */}
               {formFields.map((field) => (
                 <div key={field.id} className="flex flex-col gap-1">
-                  <label
-                    htmlFor={field.id}
-                    className="text-sm lg:text-base font-medium"
-                  >
+                  <label htmlFor={field.id} className="text-sm lg:text-base font-medium">
                     {field.label}
                   </label>
                   <input

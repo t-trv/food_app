@@ -1,30 +1,51 @@
 import SecondaryTitle from "../components/SecondaryTitle";
-import { useCategoryContext } from "../context/CategoryContext";
 import Category from "../components/Category";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import apiRequest from "../libs/apiRequest";
+import FoodListBySideCategory from "../components/FoodListBySideCategory";
 
-const MainFoodPage = () => {
-  const { categories } = useCategoryContext();
+const SideFoodPage = () => {
+  const [sideCategories, setSideCategories] = useState(null);
   const [activeCategory, setActiveCategory] = useState(null);
-  const mainFoodCategories =
-    categories.filter((category) => category.path === "/side-food")?.at(0)
-      ?.side_categories || [];
 
-  console.log("side food render");
+  // Lấy ra dữ liệu của danh mục phụ đang active
+  const activeCategoryData = useMemo(() => {
+    return sideCategories?.find((category) => category.id === activeCategory)?.foods || [];
+  }, [sideCategories, activeCategory]);
+
+  // fetch tất cả danh mục phụ của main-food
+  useEffect(() => {
+    const fetchSideCategories = async () => {
+      try {
+        const res = await apiRequest.get("foods/by-category/side-food");
+        if (res.data.success) {
+          setSideCategories(res.data.data.side_categories);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchSideCategories();
+  }, []);
 
   return (
     <div>
       <SecondaryTitle title={`Danh mục món ăn`} />
 
-      {mainFoodCategories.length > 0 && (
-        <Category
-          list={mainFoodCategories}
-          activeCategory={activeCategory}
-          setActiveCategory={setActiveCategory}
-        />
+      {sideCategories?.length > 0 && (
+        <Category list={sideCategories} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />
+      )}
+
+      {!activeCategory && <div>asb</div>}
+
+      {!!activeCategory && (
+        <div>
+          <FoodListBySideCategory foods={activeCategoryData} />
+        </div>
       )}
     </div>
   );
 };
 
-export default MainFoodPage;
+export default SideFoodPage;
