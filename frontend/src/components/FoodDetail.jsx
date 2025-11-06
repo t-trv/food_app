@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 
 import Loading from "./Loading";
 import VariantList from "./VariantList";
+import useOrderList from "../hooks/orderList";
 
 import apiRequest from "../libs/apiRequest";
 import { formatCurrency } from "../libs/formatCurrency";
@@ -12,7 +13,9 @@ import { formatCurrency } from "../libs/formatCurrency";
 const FoodDetail = () => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState("medium");
+
+  const { addToOrderList } = useOrderList();
 
   const { slug, mainCategory } = useParams();
   const { data, isLoading } = useQuery({
@@ -25,7 +28,7 @@ const FoodDetail = () => {
     staleTime: 1000 * 60 * 60 * 1,
   });
 
-  if (isLoading) return <Loading />;
+  if (isLoading || !data || !slug || !mainCategory) return <Loading />;
 
   return (
     <div className="flex flex-col justify-between h-full">
@@ -59,7 +62,11 @@ const FoodDetail = () => {
 
             <div className="mb-4">
               <span className="text-sm font-semibold text-gray-500">KÍCH CỠ</span>
-              <VariantList variants={data.food_variant} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
+              <VariantList
+                variants={data.food_variant}
+                selectedVariant={selectedVariant}
+                setSelectedVariant={setSelectedVariant}
+              />
             </div>
 
             <div>
@@ -93,8 +100,12 @@ const FoodDetail = () => {
               <div className="col-span-8">
                 <button
                   onClick={() => {
-                    console.log({
-                      ...data,
+                    setQuantity(1);
+                    addToOrderList({
+                      id: data.id,
+                      name: data.name,
+                      image: data.image,
+                      price: data.price,
                       quantity: quantity,
                       variant: selectedVariant,
                       total_price: data.price * quantity,
@@ -115,7 +126,10 @@ const FoodDetail = () => {
       {/* Recommended foods */}
       <div className="mb-4">
         <h2 className="text-lgxl font-bold">Món ăn được gợi ý</h2>
-        <p>Những món ăn được gợi ý sẽ được hiển thị ở đây và còn nhiều tính năng ở trang này. Tuy nhiên dev khá lười nên phải chịu</p>
+        <p>
+          Những món ăn được gợi ý sẽ được hiển thị ở đây và còn nhiều tính năng ở trang này. Tuy nhiên dev khá lười nên
+          phải chịu
+        </p>
       </div>
     </div>
   );

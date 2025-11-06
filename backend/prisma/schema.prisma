@@ -35,23 +35,23 @@ model food_variant {
 }
 
 model foods {
-  id               Int             @id @default(autoincrement())
-  side_category_id String          @db.VarChar(20)
-  name             String          @db.VarChar(100)
-  slug             String          @unique(map: "slug_UNIQUE") @db.VarChar(50)
-  image            String?         @db.VarChar(255)
-  preparation_time Int             @default(0)
-  short_description String?       @db.VarChar(100)
-  description      String          @db.Text
-  price            Decimal         @default(0.00) @db.Decimal(10, 2)
-  discount         Decimal?        @default(0.00) @db.Decimal(10, 2)
-  is_active        Boolean?        @default(true)
-  deleted_at       DateTime?       @db.DateTime(0)
-  created_at       DateTime?       @default(dbgenerated("(now())")) @db.DateTime(0)
-  updated_at       DateTime?       @default(dbgenerated("(now())")) @db.DateTime(0)
-  food_variant     food_variant[]
-  side_categories  side_categories @relation(fields: [side_category_id], references: [id], onDelete: Cascade, map: "foods_ibfk_1")
-  order_items      order_items[]
+  id                Int             @id @default(autoincrement())
+  side_category_id  String          @db.VarChar(20)
+  name              String          @db.VarChar(100)
+  slug              String          @unique(map: "slug_UNIQUE") @db.VarChar(50)
+  image             String?         @db.VarChar(255)
+  preparation_time  Int             @default(0)
+  description       String          @db.Text
+  price             Decimal         @default(0.00) @db.Decimal(10, 2)
+  discount          Decimal?        @default(0.00) @db.Decimal(10, 2)
+  is_active         Boolean?        @default(true)
+  deleted_at        DateTime?       @db.DateTime(0)
+  created_at        DateTime?       @default(dbgenerated("(now())")) @db.DateTime(0)
+  updated_at        DateTime?       @default(dbgenerated("(now())")) @db.DateTime(0)
+  short_description String?         @db.VarChar(100)
+  food_variant      food_variant[]
+  side_categories   side_categories @relation(fields: [side_category_id], references: [id], onDelete: Cascade, map: "foods_ibfk_1")
+  order_items       order_items[]
 
   @@index([side_category_id], map: "side_category_id")
 }

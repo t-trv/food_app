@@ -2,3 +2,13 @@
   --color-primary: #e3001b;
   --color-secondary: #101010;
 }
+
+.hide-scrollbar {
+  overflow: auto; /* hoặc overflow-y:auto */
+  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}

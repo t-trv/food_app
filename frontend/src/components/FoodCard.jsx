@@ -22,8 +22,12 @@ const FoodCard = ({ food }) => {
       <div className="p-2 h-auto flex flex-col justify-between flex-1">
         {/* Food name and description */}
         <div>
-          <h3 className="text-lg font-semibold">{food.name}</h3>
-          <p className="text-sm text-gray-500">{food.short_description || food.description}</p>
+          <h3 className="text-lg font-semibold food-name-font">{food.name}</h3>
+          <p className="text-sm text-gray-500">
+            {food.short_description || food.description.length > 100
+              ? food.description.substring(0, 20) + "..."
+              : food.description}
+          </p>
         </div>
 
         {/* Food price and add to cart button */}
