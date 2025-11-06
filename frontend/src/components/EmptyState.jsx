@@ -66,7 +66,7 @@ const EmptyState = ({ title = "Không có dữ liệu", className }) => {
             />
           </svg>
         </div>
-        <h2 className="title">{title}</h2>
+        <h2 className={`${className ? className : "title"}`}>{title}</h2>
       </div>
     </StyledWrapper>
   );

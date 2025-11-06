@@ -4,7 +4,7 @@ const VariantList = ({ variants, selectedVariant, setSelectedVariant }) => {
       {variants.map((variant) => (
         <div
           key={variant.variants.id}
-          className={`rounded-xl px-5 py-1 min-w-10 text-center text-sm border-2 border-dashed border-gray-400 hover:bg-secondary hover:text-white hover:border-secondary transition-all duration-300 cursor-pointer select-none ${
+          className={`rounded-xl px-5 py-1 min-w-10 text-center text-sm border-2 border-dashed border-gray-400 transition-all duration-300 cursor-pointer select-none ${
             selectedVariant === variant.variants.id ? "bg-secondary text-white border-secondary" : ""
           }`}
           onClick={() => {

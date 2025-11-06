@@ -1,0 +1,32 @@
+import useOrderList from "../hooks/orderList";
+import { formatCurrency } from "../libs/formatCurrency";
+import { TrashIcon } from "lucide-react";
+
+const MiniFoodCard = ({ item }) => {
+  const { removeFromOrderList } = useOrderList();
+
+  return (
+    <div className="border-dashed border-2 border-gray-200 rounded-xl p-2">
+      <div className="grid grid-cols-12 gap-2">
+        <div className="col-span-4">
+          <img src={item?.image} alt={item?.name} className="aspect-square object-cover rounded-xl" />
+        </div>
+        <div className="col-span-7">
+          <h3 className="text-lg font-bold food-name-font">
+            {item?.name} <span className="text-xs text-gray-500">({item?.variant})</span>
+          </h3>
+          <p className="text-sm text-gray-500">Số lượng: {item?.quantity}</p>
+          <p className="text-sm text-gray-500">Tổng tiền: {formatCurrency(item?.total_price)}</p>
+        </div>
+
+        <div className="col-span-1 flex items-end justify-end">
+          <button className="cursor-pointer p-2" onClick={() => removeFromOrderList(item?.id)}>
+            <TrashIcon className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default MiniFoodCard;
