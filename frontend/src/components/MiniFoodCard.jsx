@@ -6,7 +6,7 @@ const MiniFoodCard = ({ item }) => {
   const { removeFromOrderList } = useOrderList();
 
   return (
-    <div className="border-dashed border-2 border-gray-200 rounded-xl p-2">
+    <div className="border-dashed border-2 border-gray-200 rounded-xl p-2 animate-slide-in">
       <div className="grid grid-cols-12 gap-2">
         <div className="col-span-4">
           <img src={item?.image} alt={item?.name} className="aspect-square object-cover rounded-xl" />
@@ -20,7 +20,7 @@ const MiniFoodCard = ({ item }) => {
         </div>
 
         <div className="col-span-1 flex items-end justify-end">
-          <button className="cursor-pointer p-2" onClick={() => removeFromOrderList(item?.id)}>
+          <button className="cursor-pointer p-2" onClick={() => removeFromOrderList(item)}>
             <TrashIcon className="w-4 h-4" />
           </button>
         </div>
