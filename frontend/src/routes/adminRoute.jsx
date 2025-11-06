@@ -1,5 +1,7 @@
 import AdminLayout from "../layout/AdminLayout";
-import AdminPage from "../pages/AdminPage";
+import AdminPage from "../pages/admin/AdminPage";
+import AdminUsersPage from "../pages/admin/AdminUsersPage";
+import AdminFoodsPage from "../pages/admin/AdminFoodsPage";
 
 const adminRoute = [
   {
@@ -9,6 +11,14 @@ const adminRoute = [
       {
         path: "/admin/dashboard",
         element: <AdminPage />,
+      },
+      {
+        path: "/admin/dashboard/users",
+        element: <AdminUsersPage />,
+      },
+      {
+        path: "/admin/dashboard/foods",
+        element: <AdminFoodsPage />,
       },
     ],
   },
