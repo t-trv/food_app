@@ -1,4 +1,4 @@
-import { UserIcon, Sandwich } from "lucide-react";
+import { UserIcon, Sandwich, ShoppingCartIcon } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -28,7 +28,9 @@ const AdminSidebar = () => {
           navigate("/admin/dashboard");
         }}
       >
-        <h1 className="text-3xl font-bold text-primary brand-title-font">QuadBite</h1>
+        <h1 className="text-3xl font-bold text-primary brand-title-font">
+          QuadBite
+        </h1>
       </div>
 
       <div className="flex flex-col gap-2 mt-8">
@@ -37,7 +39,9 @@ const AdminSidebar = () => {
             to={item.path}
             key={item.path}
             className={`flex items-center gap-2 px-4 py-2 transition-all duration-300 select-none rounded-2xl ${
-              isActive === item.path ? "bg-secondary text-white" : "hover:bg-gray-100"
+              isActive === item.path
+                ? "bg-secondary text-white"
+                : "hover:bg-gray-100"
             }`}
             onClick={() => setIsActive(item.path)}
           >

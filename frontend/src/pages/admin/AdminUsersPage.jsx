@@ -1,35 +1,65 @@
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../components/Loading";
+import apiRequest from "../../libs/apiRequest";
+import Table from "../../components/Table";
+import SecondaryTitle from "../../components/SecondaryTitle";
+import dayjs from "dayjs";
+
 const AdminUsersPage = () => {
+  const {
+    data: users,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await apiRequest.get("/users");
+      return res.data.data;
+    },
+    staleTime: 1000 * 60 * 60 * 1, // 1 hour
+  });
+
+  if (isLoading) return <Loading />;
+  if (error) {
+    console.log(error);
+    return <div>Đã xảy ra lỗi</div>;
+  }
+
+  const columns = [
+    { key: "id", label: "ID" },
+    { key: "name", label: "Tên" },
+    { key: "username", label: "Tên đăng nhập" },
+    { key: "email", label: "Email" },
+    { key: "phone", label: "Số điện thoại" },
+    {
+      key: "roles",
+      label: "Quyền",
+      render: (item) => {
+        return (
+          item.user_role?.flatMap((role) => role.roles.name).join(", ") ||
+          "Không có quyền"
+        );
+      },
+    },
+    {
+      key: "created_at",
+      label: "Ngày tạo",
+      render: (item) => dayjs(item.created_at).format("DD/MM/YYYY"),
+    },
+    {
+      key: "deleted_at",
+      label: "Ngày xóa",
+      render: (item) =>
+        item.deleted_at ? dayjs(item.deleted_at).format("DD/MM/YYYY") : "",
+    },
+  ];
+  const visibleData = users.reverse().slice(0, 10);
+
   return (
     <div>
-      Trang quản lý người dùng
-      <div className="overflow-hidden rounded-xl border border-gray-300 shadow-sm max-w-2xl mx-auto mt-10">
-        <table className="min-w-full border-collapse">
-          <thead className="bg-gray-100 text-left">
-            <tr>
-              <th className="p-3 font-semibold">Tên món</th>
-              <th className="p-3 font-semibold">Danh mục</th>
-              <th className="p-3 font-semibold text-right">Giá</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y">
-            <tr className="hover:bg-gray-50">
-              <td className="p-3">Cơm rang dưa bò</td>
-              <td className="p-3">Món chính</td>
-              <td className="p-3 text-right">45.000đ</td>
-            </tr>
-            <tr className="hover:bg-gray-50">
-              <td className="p-3">Bánh flan</td>
-              <td className="p-3">Tráng miệng</td>
-              <td className="p-3 text-right">20.000đ</td>
-            </tr>
-            <tr className="hover:bg-gray-50 hover:text-primary">
-              <td className="p-3">Trà chanh</td>
-              <td className="p-3">Đồ uống</td>
-              <td className="p-3 text-right">15.000đ</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <SecondaryTitle title="Quản lý người dùng" />
+      <br />
+      <Table columns={columns} data={visibleData} />
     </div>
   );
 };
