@@ -64,6 +64,7 @@ const getUsers = async (req, res) => {
         deleted_at: null,
       },
       include: {
+        hash_password: false,
         addresses: true,
         user_role: {
           include: {
