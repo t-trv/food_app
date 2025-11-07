@@ -31,7 +31,7 @@ const FoodDetail = () => {
   if (isLoading || !data || !slug || !mainCategory) return <Loading />;
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className="flex flex-col justify-between h-full animate-slide-in">
       {/* Content wrapper */}
       <div>
         {/* Back button */}
@@ -62,11 +62,7 @@ const FoodDetail = () => {
 
             <div className="mb-4">
               <span className="text-sm font-semibold text-gray-500">KÍCH CỠ</span>
-              <VariantList
-                variants={data.food_variant}
-                selectedVariant={selectedVariant}
-                setSelectedVariant={setSelectedVariant}
-              />
+              <VariantList variants={data.food_variant} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
             </div>
 
             <div>
@@ -126,10 +122,7 @@ const FoodDetail = () => {
       {/* Recommended foods */}
       <div className="mb-4">
         <h2 className="text-lgxl font-bold">Món ăn được gợi ý</h2>
-        <p>
-          Những món ăn được gợi ý sẽ được hiển thị ở đây và còn nhiều tính năng ở trang này. Tuy nhiên dev khá lười nên
-          phải chịu
-        </p>
+        <p>Những món ăn được gợi ý sẽ được hiển thị ở đây và còn nhiều tính năng ở trang này. Tuy nhiên dev khá lười nên phải chịu</p>
       </div>
     </div>
   );

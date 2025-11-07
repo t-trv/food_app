@@ -40,7 +40,7 @@ const FoodMenu = () => {
         />
       </div>
 
-      <div>
+      <div className="animate-slide-in">
         <FoodList foods={foods} />
       </div>
     </div>

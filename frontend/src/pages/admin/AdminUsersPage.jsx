@@ -1,29 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
-import Loading from "../../components/Loading";
-import apiRequest from "../../libs/apiRequest";
-import Table from "../../components/Table";
-import SecondaryTitle from "../../components/SecondaryTitle";
+import Table from "../../components/table/Table.jsx";
+import SecondaryTitle from "../../components/SecondaryTitle.jsx";
 import dayjs from "dayjs";
+import { useTableData } from "../../hooks/useTableData.js";
 
 const AdminUsersPage = () => {
-  const {
-    data: users,
-    isLoading,
-    error,
-  } = useQuery({
-    queryKey: ["users"],
-    queryFn: async () => {
-      const res = await apiRequest.get("/users");
-      return res.data.data;
-    },
-    staleTime: 1000 * 60 * 60 * 1, // 1 hour
-  });
-
-  if (isLoading) return <Loading />;
-  if (error) {
-    console.log(error);
-    return <div>Đã xảy ra lỗi</div>;
-  }
+  const { data: users, isLoading, error } = useTableData("/users");
 
   const columns = [
     { key: "id", label: "ID" },
@@ -35,10 +16,7 @@ const AdminUsersPage = () => {
       key: "roles",
       label: "Quyền",
       render: (item) => {
-        return (
-          item.user_role?.flatMap((role) => role.roles.name).join(", ") ||
-          "Không có quyền"
-        );
+        return item.user_role?.flatMap((role) => role.roles.name).join(", ") || "Không có quyền";
       },
     },
     {
@@ -49,17 +27,15 @@ const AdminUsersPage = () => {
     {
       key: "deleted_at",
       label: "Ngày xóa",
-      render: (item) =>
-        item.deleted_at ? dayjs(item.deleted_at).format("DD/MM/YYYY") : "",
+      render: (item) => (item.deleted_at ? dayjs(item.deleted_at).format("DD/MM/YYYY") : ""),
     },
   ];
-  const visibleData = users.reverse().slice(0, 10);
 
   return (
     <div>
       <SecondaryTitle title="Quản lý người dùng" />
       <br />
-      <Table columns={columns} data={visibleData} />
+      <Table columns={columns} data={users} />
     </div>
   );
 };
