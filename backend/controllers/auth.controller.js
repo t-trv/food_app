@@ -118,8 +118,9 @@ const login = async (req, res) => {
     // Return token
     res
       .cookie("token", token, {
-        httpOnly: true,
-        // secure: true,
+        httpOnly: true, // [BẮT BUỘC KHI DÙNG HTTPS] Bỏ comment và đặt là true
+        secure: true, // [BẮT BUỘC KHI CROSS-SITE] Cho phép cookie được gửi giữa các domain khác nhau
+        sameSite: "none",
         maxAge: 1000 * 60 * 60 * 1, // 1 hour
       })
       .status(200)
