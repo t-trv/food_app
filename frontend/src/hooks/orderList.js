@@ -8,19 +8,22 @@ const useOrderList = create(
       orderList: [],
       addToOrderList: (item) => {
         set((state) => {
-          const isDuplicate = state.orderList.some((i) => i.id === item.id);
+          const isDuplicate = state.orderList.find((i) => i.id === item.id && i.variant === item.variant);
           if (isDuplicate) {
-            toast.error("Món này đã được thêm vào danh sách đặt món");
-            return state;
+            return {
+              orderList: state.orderList.map((i) =>
+                i.id === item.id && i.variant === item.variant ? { ...i, quantity: i.quantity + item.quantity } : i
+              ),
+            };
           }
+
           toast.success("Đặt món thành công");
-          return { orderList: [...state.orderList, { ...item, quantity: 1 }] };
+          return { orderList: [...state.orderList, { ...item }] };
         });
       },
-      removeFromOrderList: (id) => {
+      removeFromOrderList: (item) => {
         set((state) => {
-          toast.success("Xóa món thành công");
-          return { orderList: state.orderList.filter((item) => item.id !== id) };
+          return { orderList: state.orderList.filter((i) => i !== item) };
         });
       },
       clearOrderList: () => {

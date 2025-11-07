@@ -1,7 +1,7 @@
 const AdminPage = () => {
   return (
-    <div>
-      <h1>AdminPage</h1>
+    <div className="">
+      <h1>Trang quản trị hệ thống QuadBite</h1>
     </div>
   );
 };

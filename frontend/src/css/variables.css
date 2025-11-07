@@ -2,3 +2,66 @@
   --color-primary: #e3001b;
   --color-secondary: #101010;
 }
+
+.hide-scrollbar {
+  overflow: auto; /* hoặc overflow-y:auto */
+  -ms-overflow-style: none; /* IE 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* style scroll bar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db #f9fafb;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:active {
+  background: #64748b;
+}
+
+/* Dark mode variant (tùy chọn) */
+@media (prefers-color-scheme: dark) {
+  .custom-scrollbar {
+    scrollbar-color: #475569 #1e293b;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: #1e293b;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #475569;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #64748b;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:active {
+    background: #94a3b8;
+  }
+}

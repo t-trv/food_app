@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 
 import Loading from "./Loading";
 import VariantList from "./VariantList";
+import useOrderList from "../hooks/orderList";
 
 import apiRequest from "../libs/apiRequest";
 import { formatCurrency } from "../libs/formatCurrency";
@@ -12,7 +13,9 @@ import { formatCurrency } from "../libs/formatCurrency";
 const FoodDetail = () => {
   const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
-  const [selectedVariant, setSelectedVariant] = useState(null);
+  const [selectedVariant, setSelectedVariant] = useState("medium");
+
+  const { addToOrderList } = useOrderList();
 
   const { slug, mainCategory } = useParams();
   const { data, isLoading } = useQuery({
@@ -25,10 +28,10 @@ const FoodDetail = () => {
     staleTime: 1000 * 60 * 60 * 1,
   });
 
-  if (isLoading) return <Loading />;
+  if (isLoading || !data || !slug || !mainCategory) return <Loading />;
 
   return (
-    <div className="flex flex-col justify-between h-full">
+    <div className="flex flex-col justify-between h-full animate-slide-in">
       {/* Content wrapper */}
       <div>
         {/* Back button */}
@@ -93,8 +96,12 @@ const FoodDetail = () => {
               <div className="col-span-8">
                 <button
                   onClick={() => {
-                    console.log({
-                      ...data,
+                    setQuantity(1);
+                    addToOrderList({
+                      id: data.id,
+                      name: data.name,
+                      image: data.image,
+                      price: data.price,
                       quantity: quantity,
                       variant: selectedVariant,
                       total_price: data.price * quantity,
