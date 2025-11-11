@@ -40,7 +40,7 @@ const FoodMenu = () => {
         />
       </div>
 
-      <div className="animate-slide-in">
+      <div className="animate-slide-in max-h-[calc(100vh-200px)] overflow-y-auto hide-scrollbar py-2">
         <FoodList foods={foods} />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import useOrderList from "../hooks/orderList";
+import useOrderList from "../hooks/useOrderList";
 import { formatCurrency } from "../libs/formatCurrency";
 import { TrashIcon } from "lucide-react";
 
@@ -12,7 +12,7 @@ const MiniFoodCard = ({ item }) => {
           <img src={item?.image} alt={item?.name} className="aspect-square object-cover rounded-xl" />
         </div>
         <div className="col-span-7">
-          <h3 className="text-lg font-bold food-name-font">
+          <h3 className="text-md font-bold">
             {item?.name} <span className="text-xs text-gray-500">({item?.variant})</span>
           </h3>
           <p className="text-sm text-gray-500">Số lượng: {item?.quantity}</p>

@@ -1,4 +1,3 @@
-import toast from "react-hot-toast";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
@@ -17,7 +16,6 @@ const useOrderList = create(
             };
           }
 
-          toast.success("Đặt món thành công");
           return { orderList: [...state.orderList, { ...item }] };
         });
       },
@@ -37,3 +35,4 @@ const useOrderList = create(
 );
 
 export default useOrderList;
+
