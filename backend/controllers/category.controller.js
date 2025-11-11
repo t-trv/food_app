@@ -188,6 +188,49 @@ const deleteSideCategory = async (req, res) => {
   }
 };
 
+const updateSideCategory = async (req, res) => {
+  try {
+    const { oldId } = req.params;
+
+    const { id, main_category_id, name } = req.body;
+
+    const existingSideCategory = await prisma.side_categories.findUnique({
+      where: { id },
+    });
+    if (existingSideCategory) {
+      return res.status(400).json({
+        success: false,
+        message: "Id danh mục phụ này đã tồn tại",
+      });
+    }
+
+    const existingMainCategory = await prisma.main_categories.findUnique({
+      where: { id: main_category_id },
+    });
+    if (!existingMainCategory) {
+      return res.status(400).json({
+        success: false,
+        message: "Danh mục chính này không tồn tại",
+      });
+    }
+
+    const sideCategory = await prisma.side_categories.update({
+      where: { id: oldId },
+      data: { id, main_category_id, name },
+    });
+
+    res.status(200).json({
+      success: true,
+      data: sideCategory,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 export {
   getMainCategories,
   getSideCategories,
@@ -196,4 +239,5 @@ export {
   deleteMainCategory,
   createSideCategory,
   deleteSideCategory,
+  updateSideCategory,
 };

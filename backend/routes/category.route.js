@@ -7,6 +7,7 @@ import {
   deleteMainCategory,
   createSideCategory,
   deleteSideCategory,
+  updateSideCategory,
 } from "../controllers/category.controller.js";
 import verifyToken from "../middlewares/verifyToken.js";
 import isAdmin from "../middlewares/isAdmin.js";
@@ -20,5 +21,6 @@ router.post("/main", verifyToken, isAdmin, createMainCategory);
 router.delete("/main", verifyToken, isAdmin, deleteMainCategory);
 router.post("/side", verifyToken, isAdmin, createSideCategory);
 router.delete("/side", verifyToken, isAdmin, deleteSideCategory);
+router.put("/side/:oldId", verifyToken, isAdmin, updateSideCategory);
 
 export default router;

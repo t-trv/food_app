@@ -5,6 +5,8 @@ import ShoppingLayout from "../layout/ShoppingLayout";
 import HomeLayout from "../layout/HomeLayout";
 import FoodMenu from "../components/FoodMenu";
 import FoodDetail from "../components/FoodDetail";
+import OrderLayout from "../layout/OrderLayout";
+import OrderPage from "../pages/OrderPage";
 
 const publicRoutes = [
   { path: "/login", element: <LoginPage /> },
@@ -22,6 +24,11 @@ const publicRoutes = [
       { path: "/:mainCategory", element: <FoodMenu /> },
       { path: "/:mainCategory/:slug", element: <FoodDetail /> },
     ],
+  },
+  {
+    path: "/",
+    element: <OrderLayout />,
+    children: [{ path: "/order", element: <OrderPage /> }],
   },
 ];
 

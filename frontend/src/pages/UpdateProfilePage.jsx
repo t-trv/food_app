@@ -6,7 +6,8 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import Loading from "../components/Loading";
 import ConfirmModal from "../components/ConfirmModal";
-import useOrderList from "../hooks/orderList";
+import useOrderList from "../hooks/useOrderList";
+import SecondaryTitle from "../components/SecondaryTitle";
 
 const UpdateProfilePage = () => {
   const { updateUser, currentUser } = useAuthContext();
@@ -29,7 +30,7 @@ const UpdateProfilePage = () => {
       maxLength: 30,
     },
     {
-      label: "Email",
+      label: "Địa chỉ thư điện tử",
       type: "email",
       id: "email",
       name: "email",
@@ -157,6 +158,9 @@ const UpdateProfilePage = () => {
                   />
                 </div>
               ))}
+            </div>
+            <div className="my-8">
+              <SecondaryTitle title="Địa chỉ giao hàng" />
             </div>
             <div className="mt-8 flex justify-end gap-2">
               <button
