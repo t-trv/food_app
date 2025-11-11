@@ -5,7 +5,7 @@ import { ArrowLeftIcon } from "lucide-react";
 
 import Loading from "./Loading";
 import VariantList from "./VariantList";
-import useOrderList from "../hooks/orderList";
+import useOrderList from "../hooks/useOrderList";
 
 import apiRequest from "../libs/apiRequest";
 import { formatCurrency } from "../libs/formatCurrency";
@@ -41,7 +41,7 @@ const FoodDetail = () => {
             className="text-gray-900 border-2 border-gray-700 rounded-3xl px-2 py-1 flex items-center gap-2 text-sm hover:bg-gray-100 transition-all duration-300 cursor-pointer hover:scale-105 active:scale-95"
           >
             <ArrowLeftIcon className="w-4 h-4" />
-            Quay trở lại bên em
+            Quay trở lại
           </button>
         </div>
 
@@ -52,7 +52,7 @@ const FoodDetail = () => {
           </div>
           <div className="col-span-7 p-4 flex flex-col justify-between">
             <div className="mb-4">
-              <h1 className="text-4xl font-bold food-name-font">
+              <h1 className="text-4xl font-bold mb-4">
                 {data.name} <span className="text-sm text-gray-500">({data.preparation_time} phút chế biến)</span>
               </h1>
               <p className="text-gray-500 text-justify">
@@ -62,13 +62,17 @@ const FoodDetail = () => {
 
             <div className="mb-4">
               <span className="text-sm font-semibold text-gray-500">KÍCH CỠ</span>
-              <VariantList variants={data.food_variant} selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant} />
+              <VariantList
+                variants={data.food_variant}
+                selectedVariant={selectedVariant}
+                setSelectedVariant={setSelectedVariant}
+              />
             </div>
 
-            <div>
+            {/* <div>
               <span className="text-sm font-semibold text-gray-500">NGUYÊN LIỆU</span>
               <VariantList variants={data.food_variant} />
-            </div>
+            </div> */}
 
             {/* Quantity and Add to orderlist */}
             <div className="mb-4 grid grid-cols-12 gap-4">
@@ -122,7 +126,10 @@ const FoodDetail = () => {
       {/* Recommended foods */}
       <div className="mb-4">
         <h2 className="text-lgxl font-bold">Món ăn được gợi ý</h2>
-        <p>Những món ăn được gợi ý sẽ được hiển thị ở đây và còn nhiều tính năng ở trang này. Tuy nhiên dev khá lười nên phải chịu</p>
+        <p>
+          Những món ăn được gợi ý sẽ được hiển thị ở đây và còn nhiều tính năng ở trang này. Tuy nhiên dev khá bận nên
+          phải chịu
+        </p>
       </div>
     </div>
   );

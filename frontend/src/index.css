@@ -2,6 +2,7 @@
 @import "tailwindcss";
 @import "./css/variables.css";
 @import "./css/keyframes.css";
+@import "./css/select.css";
 
 body {
   font-family: "Lexend", sans-serif;

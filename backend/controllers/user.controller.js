@@ -1,5 +1,6 @@
 import prisma from "../libs/prisma.js";
 import checkRole from "../libs/checkRole.js";
+import * as addressService from "../services/address.service.js";
 
 const getUser = async (req, res) => {
   try {
@@ -88,7 +89,7 @@ const getUsers = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const id = parseInt(req.params.id);
-    const { name, email, phone } = req.body;
+    const { name, email, phone, address_line, city, district } = req.body;
 
     // Kiểm tra xem user có quyền cập nhật user này không
     if (id !== req.token_userId) {
@@ -153,15 +154,26 @@ const updateUser = async (req, res) => {
       }
     }
 
-    const updatedUser = await prisma.users.update({
-      where: {
-        id: id,
-      },
-      data: {
-        ...(name && { name }),
-        ...(email && { email }),
-        ...(phone && { phone }),
-      },
+    const updatedUser = await prisma.$transaction(async (tx) => {
+      const updatedUser = await tx.users.update({
+        where: {
+          id: id,
+        },
+        data: {
+          ...(name && { name }),
+          ...(email && { email }),
+          ...(phone && { phone }),
+        },
+      });
+
+      if (address_line || city || district) {
+        const updatedAddress = await addressService.createAddress(
+          { user_id: updatedUser.id, address_line, city, district },
+          tx
+        );
+      }
+
+      return updatedUser;
     });
 
     res.status(200).json({
